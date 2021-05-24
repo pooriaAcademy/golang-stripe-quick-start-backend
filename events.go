@@ -7,24 +7,23 @@ import (
 )
 
 
-func HandleEvent(w http.ResponseWriter, req * http.Request) error {
+func HandleEvent(w http.ResponseWriter, req * http.Request)  {
 	event, err := getEvent(w, req)
 
 	if err != nil{
-		return err
+		log.Fatal(err)
 	}
 
 	log.Println(event.Type)
 
 	if event.Type == "customer.subscription.created" {
-		c, err := customer.Get(event.Data.Object["FinalEmail"].(string), nil)
+		c, err := customer.Get(event.Data.Object["customer"].(string), nil)
 		if err != nil {
-			return err
+			log.Fatal(err)
 		}
 		email := c.Metadata["FinalEmail"]
 		log.Println("Subscription created by", email)
 	}
 
 
-	return nil
 }
