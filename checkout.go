@@ -48,7 +48,6 @@ func checkout(email string) (*stripe.CheckoutSession, error) {
 		LineItems: []*stripe.CheckoutSessionLineItemParams{
 			&stripe.CheckoutSessionLineItemParams{
 				Price:    stripe.String(PriceId),
-				// For metered billing, do not pass quantity
 				Quantity: stripe.Int64(1),
 			},
 		},
@@ -57,8 +56,6 @@ func checkout(email string) (*stripe.CheckoutSession, error) {
 			Metadata: meta,
 		},
 	}
-	// TODO in the future look if using this meta data is better
-	//params.AddMetadata(domain.FinalEmailTag, email)
 	return session.New(params)
 }
 
